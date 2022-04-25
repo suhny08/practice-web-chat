@@ -80,6 +80,6 @@ app.get('/fail', function(req, res) {
     res.send('failed');
 })
 
-// app.get('*', function(req, res) {
-//     res.sendFile(path.join(__dirname, '/build/index.html'));
-// });
+app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, '/practice-web-chat/build/index.html'));
+});
