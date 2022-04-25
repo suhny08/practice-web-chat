@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, Router, Routes, BrowserRouter, Switch  } from "react-router-dom";
+
+import login from './login';
 
 
-function Web(props) {
+function Web() {
 
   return (
     <div>
     <h1>this is web.js</h1>
+    <BrowserRouter>
+          <Link to="/login"> link to </Link>
+    </BrowserRouter>
     </div>
   );
 }

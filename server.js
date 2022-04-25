@@ -12,7 +12,7 @@ http.listen(8080, function () {
     console.log('listening on 8080 > server.js');
 });
 
-app.use(express.static(path.join(__dirname, 'react-project/build')));
+app.use(express.static(path.join(__dirname, 'practice-web-chat/build')));
 
 // npm link cors
 app.use(express.json());
@@ -24,7 +24,15 @@ app.use(cors());
 // var loginRouter = require('./server/routes/login.js');
 // app.use('/login', loginRouter);
 
+
 // login
+
+
+app.get('/login', function(req, res) {
+    // res.sendFile(path.join(__dirname, './login'));
+    res.send('login');
+});
+
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
@@ -33,11 +41,11 @@ app.use(session({secret : 'secuCode', resave : true, saveUninitialized: false}))
 app.use(passport.initialize());
 app.use(passport.session()); 
 
-app.post('/login'
+app.post('/logind'
                  , passport.authenticate('local', {failureRedirect: '/fail'})
                  ,  function (req, res, next) {
                     console.log('logins.js redirect');
-                    res.redirect('/');
+                    res.redirect('/fail'); // 임시 route 주소 
                     }
 );
 
@@ -51,6 +59,7 @@ passport.use(new LocalStrategy({
     console.log(iemail + ', ' + ipassword);
 
     if ( user.email === iemail && user.password === ipassword ) {
+        console.log('log in');
         return done(null, {email: iemail, password: ipassword});
     } else {
         console.log('wrong member');
@@ -58,13 +67,19 @@ passport.use(new LocalStrategy({
     }
   }));
 
-
+  passport.serializeUser(function(user, done) {
+    done(null, user);
+  });
+  
+  passport.deserializeUser(function(user, done) {
+    done(null, user);
+  });
 
 app.get('/fail', function(req, res) {
     // res.sendFile(path.join(__dirname, '/fail'));
     res.send('failed');
 })
 
-app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, '/build/index.html'));
-});
+// app.get('*', function(req, res) {
+//     res.sendFile(path.join(__dirname, '/build/index.html'));
+// });
