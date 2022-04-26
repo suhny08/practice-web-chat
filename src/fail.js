@@ -1,6 +1,6 @@
 
 
-function Fail(props) {
+function Fail() {
 
   return (
     <div>

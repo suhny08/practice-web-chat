@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 
-function Web({ authenticated, login, location }) {
+function Login() {
   const [ email, setEmail ] = useState("");
   const [ password, setPassword ] = useState("");
   // const navigate = useNavigate();
@@ -26,12 +26,15 @@ function Web({ authenticated, login, location }) {
     fetch('http://localhost:8080/login', {
     // fetch('/login', {
       method: "POST",
+      redirect: "follow",
+      credentials: 'include',
       headers: {
         'Content-type': 'application/json'
       },
       body: JSON.stringify(e)
     }).then( result => {
         console.log(result);
+        window.location.href = result.url;
       })    
   };
 
@@ -48,4 +51,4 @@ function Web({ authenticated, login, location }) {
   );
 }
 
-export default Web;
+export default Login;

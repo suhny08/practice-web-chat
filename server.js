@@ -1,6 +1,6 @@
 const user = {
-    email: "aaa@aaa.com",
-    password: "aaa",
+    email: "111",
+    password: "111",
 }
 
 const express = require('express');
@@ -28,10 +28,10 @@ app.use(cors());
 // login
 
 
-app.get('/login', function(req, res) {
-    // res.sendFile(path.join(__dirname, './login'));
-    res.send('login');
-});
+// app.get('/login', function(req, res) {
+//     // res.sendFile(path.join(__dirname, './login'));
+//     res.send('login');
+// });
 
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -41,12 +41,13 @@ app.use(session({secret : 'secuCode', resave : true, saveUninitialized: false}))
 app.use(passport.initialize());
 app.use(passport.session()); 
 
-app.post('/logind'
-                 , passport.authenticate('local', {failureRedirect: '/fail'})
-                 ,  function (req, res, next) {
-                    console.log('logins.js redirect');
-                    res.redirect('/fail'); // 임시 route 주소 
-                    }
+app.post('/login'
+                 , passport.authenticate('local', {
+                  successRedirect: 'http://localhost:3000/',
+                  failureRedirect: '/fail' 
+                 })
+                //  ,  function (req, res, next) { res.redirect('/fail'); }
+                
 );
 
 passport.use(new LocalStrategy({
@@ -56,10 +57,10 @@ passport.use(new LocalStrategy({
     passReqToCallback: false,
   }, function (iemail, ipassword, done) {
     //input email, password 
-    console.log(iemail + ', ' + ipassword);
+    console.log('email: ' + iemail + ', password: ' + ipassword);
 
     if ( user.email === iemail && user.password === ipassword ) {
-        console.log('log in');
+        console.log('login success');
         return done(null, {email: iemail, password: ipassword});
     } else {
         console.log('wrong member');
@@ -67,10 +68,12 @@ passport.use(new LocalStrategy({
     }
   }));
 
+
+  // 사용자 session 생성 -> (쿠키) 사용자의 브라우저로 전송
   passport.serializeUser(function(user, done) {
     done(null, user);
-  });
-  
+  });  
+  // 로그인 한 사용자가 페이지(사용자 페이지 등)에 접속했을 때 실행되는 함수
   passport.deserializeUser(function(user, done) {
     done(null, user);
   });
@@ -81,5 +84,5 @@ app.get('/fail', function(req, res) {
 })
 
 app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, '/practice-web-chat/build/index.html'));
+    res.sendFile(path.join(__dirname, '/build/index.html'));
 });
