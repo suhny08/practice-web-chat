@@ -37,9 +37,20 @@ app.get('/fail', function(req, res) {
     res.send('failed');
 })
 
+app.get('/chat', isLogin, function (req, res) {
+  console.log('chat' + req);
+  res.sendFile(path.join(__dirname, './Chat'));
+})
+
 app.get('*', function(req, res) {
     res.sendFile(path.join(__dirname, '/build/index.html'));
 });
+
+function isLogin(req, res, next) {
+  console.log('isLogin');
+  if (req.user) next();
+  else res.send('not member');
+}
 
 
 
