@@ -20,8 +20,8 @@ function Login() {
   const onSubmit = e => {
     // e.preventDefault(); // prevent page reload
 
-    setEmail(e.email);
-    setPassword(e.password);
+    // setEmail(e.email);
+    // setPassword(e.password);
 
     // fetch('http://localhost:8080/login', {
     fetch('/login', {
@@ -32,9 +32,16 @@ function Login() {
         'Content-type': 'application/json'
       },
       body: JSON.stringify(e)
-    }).then( result => {
-        console.log(result);
-        window.location.href = result.url;
+    })
+    .then( res => res.json() )
+    .then( json => {
+        console.log(json);
+        if (json.email) {
+          window.location.href = '/';
+          this.setEmail(json.email);
+        } else {
+          alert('login fail!');
+        }
       })    
   };
 
