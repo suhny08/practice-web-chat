@@ -23,8 +23,8 @@ function Login() {
     setEmail(e.email);
     setPassword(e.password);
 
-    fetch('http://localhost:8080/login', {
-    // fetch('/login', {
+    // fetch('http://localhost:8080/login', {
+    fetch('/login', {
       method: "POST",
       redirect: "follow",
       credentials: 'include',

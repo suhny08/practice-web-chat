@@ -25,14 +25,24 @@ app.use(cors());
 // app.use('/login', loginRouter);
 
 
-// login
-
-
 // app.get('/login', function(req, res) {
 //     // res.sendFile(path.join(__dirname, './login'));
 //     res.send('login');
 // });
 
+
+app.get('/fail', function(req, res) {
+    // res.sendFile(path.join(__dirname, '/fail'));
+    res.send('failed');
+})
+
+app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, '/build/index.html'));
+});
+
+
+
+// login  
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
@@ -77,12 +87,3 @@ passport.use(new LocalStrategy({
   passport.deserializeUser(function(user, done) {
     done(null, user);
   });
-
-app.get('/fail', function(req, res) {
-    // res.sendFile(path.join(__dirname, '/fail'));
-    res.send('failed');
-})
-
-app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, '/build/index.html'));
-});
