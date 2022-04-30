@@ -1,4 +1,4 @@
-# 회원 인증(passport+express) & 채팅 기능(socket.io)
+# practice-web-chat
 
 
 
