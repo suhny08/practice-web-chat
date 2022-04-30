@@ -4,9 +4,6 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-
 const http = require('http').createServer(app);
 http.listen(8080, function () {
     console.log('listening on 8080 > server.js');
@@ -20,15 +17,6 @@ var cors = require('cors');
 // app.use(cors());
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
-// routes 
-// var loginRouter = require('./server/routes/login.js');
-// app.use('/login', loginRouter);
-
-
-// app.get('/login', function(req, res) {
-//     // res.sendFile(path.join(__dirname, './login'));
-//     res.send('login');
-// });
 
 // login  
 const passport = require('passport');
@@ -45,7 +33,6 @@ app.use(session({
     httpOnly: true,
   }
 }));
-// app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session()); 
@@ -71,10 +58,6 @@ app.get('*', isAuthenticated(), (req, res) => {
   }
   res.json(user_info);
 })
-// app.get('*', isAuthenticated(), (req, res) => {
-//   console.log('is...');
-//   res.json({email: req.email, name: req.name});
-// });
 
 function isUser(req, res, next) {
   console.log('isUser? ');
@@ -88,20 +71,6 @@ function isUser(req, res, next) {
   return res.json(user_info);
 }
 
-
-
-
-
-// app.post('/login', passport.authenticate('local'), (request, response) => {
-//   response.send('로그인 성공');
-// });
-// app.post('/login'
-//                  , passport.authenticate('local', {
-//                   successRedirect: '/',
-//                   failureRedirect: '/login' 
-//                  })
-//                  ,  function (req, res, next) { res.redirect('/fail'); }              
-// );
 
 app.post('/loginf', passport.authenticate('local', {failureRedirect : '/login'}), function(req, res){
   res.redirect('/');
