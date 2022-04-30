@@ -4,6 +4,11 @@
 1. 회원 인증(로그인 후 세션정보 저장)
 2. 채팅 기능
 
+### create-react-app 
+
+### express + passport
+
+### sockt.io
 
 
 
