@@ -1,6 +1,11 @@
-# Getting Started with Create React App
+# 회원 인증(passport+express) & 채팅 기능(socket.io)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+
+
+
+
+
 
 ## Available Scripts
 
