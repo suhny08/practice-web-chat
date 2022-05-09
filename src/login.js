@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { getNextKeyDef } from "@testing-library/user-event/dist/keyboard/getNextKeyDef";
 import { useHistory } from "react-router-dom";
 

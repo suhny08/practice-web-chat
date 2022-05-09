@@ -4,6 +4,9 @@ const express = require('express');
 const path = require('path');
 const app = express();
 
+// client 8080 
+// server 3000
+// socket 3010
 const http = require('http').createServer(app);
 http.listen(8080, function () {
     console.log('listening on 8080 > server.js');

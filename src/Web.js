@@ -22,8 +22,8 @@ function Web() {
     })
     .then(res => res.json())
     .then(user => {
-      console.log('is Authenticated?');
-      console.log(user);
+      console.log('is Authenticated? ' + user);
+      // console.log(user);
       setEmail(user.email);
     });
   });
