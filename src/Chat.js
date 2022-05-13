@@ -68,11 +68,6 @@ function Chat() {
     };
   }, []); 
   
-  useEffect(() => {
-    socket.on("receive-message", (msg) => {
-      console.log(msg);
-    });
-  }, []);
 
   
   function emit() {
@@ -85,6 +80,13 @@ function Chat() {
     var socket = io();
     socket.emit('send-message', 'send');
   };
+
+  useEffect(() => {
+    var socket = io();
+    socket.on("broadcast", (msg) => {
+      console.log(msg);
+    });
+  }, []);
 
   return (
     <div>

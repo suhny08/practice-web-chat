@@ -142,7 +142,7 @@ io.on('connection', (socket) => {
   
   socket.on('send-message', (msg) => {
     console.log(msg);
-    io.emit('receive-message', 'receive');
+    io.emit('broadcast', 'receive');
   });
 
 
