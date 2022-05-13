@@ -1,18 +1,25 @@
+// import socket from './socket';
+// const socket = require('./socket');
 var userData = require('./userData');
 
 const express = require('express');
 const path = require('path');
 const app = express();
 
+app.use(express.static(path.join(__dirname, 'practice-web-chat/build')));
+
 // client 8080 
 // server 3000
-// socket 3010
 const http = require('http').createServer(app);
-http.listen(8080, function () {
-    console.log('listening on 8080 > server.js');
+const { Server }  = require('socket.io');
+const io = new Server(http);
+
+http.listen(8080, () => {
+    console.log('listening on *:8080');
 });
 
-app.use(express.static(path.join(__dirname, 'practice-web-chat/build')));
+
+
 
 // npm link cors
 app.use(express.json());
@@ -41,8 +48,8 @@ app.use(passport.initialize());
 app.use(passport.session()); 
 
 const isAuthenticated = () => (req, res, next) => {
-  console.log('is Authenticated..?');
-  console.log(req.user);
+  console.log('is Authenticated?'+ req.user);
+  
   if (!req.user) {
     return res.send("false"); //res.sendStatus(403);
   }
@@ -52,8 +59,7 @@ const isAuthenticated = () => (req, res, next) => {
 
 app.get('*', isAuthenticated(), (req, res) => {
   var user_info = null;
-  console.log('*');
-  console.log(req.user);
+  console.log(' * ');
   if (!req.user) {
     user_info = [];
   } else {
@@ -131,5 +137,13 @@ passport.use(new LocalStrategy({
     done(null, user);
   });
 
-
+io.on('connection', (socket) => {
+  console.log('a user connected');
   
+  socket.on('send-message', (msg) => {
+    console.log(msg);
+    io.emit('receive-message', 'receive');
+  });
+
+
+});

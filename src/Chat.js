@@ -1,5 +1,8 @@
 /*eslint-disable*/
 import React, { useState, useEffect } from "react";
+import io from "socket.io-client";
+
+const socket = io("http://localhost:3000/chat", { transports: ['websocket'] });
 
 
 function Chat() {
@@ -34,10 +37,8 @@ function Chat() {
     color: '#fff'
   }
 
-
-  
   useEffect (() => {
-    console.log('use Effect');
+    
     fetch("/isUser", {
       method: "GET", 
       // redirect: "follow",
@@ -55,21 +56,58 @@ function Chat() {
         // window.location.href = '/';
       }
     });
-  });
+
+  }, []);
+
+
+  useEffect(() => {
+    // var socket = io.connect('http://localhost:3000');
+    // io.connect('http://localhost:3000');
+    return () => {
+      // socket.close();
+    };
+  }, []); 
+  
+  useEffect(() => {
+    socket.on("receive-message", (msg) => {
+      console.log(msg);
+    });
+  }, []);
+
+  
+  function emit() {
+    // var socket = io();
+    // socket.emit('user-send', 'hello');
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    var socket = io();
+    socket.emit('send-message', 'send');
+  };
 
   return (
     <div>
     <h1>Chat here!</h1>
-    <div>
 
-    </div>
     <div>
-    <form id="form" action="" style={formStyle}>
-      <input id="input" style={inputStyle}/><button style={buttonStyle}>Send</button>
-      </form>
-    </div>
+      <div>
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="10" cy="10" r="10"/>
+        </svg>
+      </div>
+      <div>
+        <form id="form" style={formStyle} onSubmit={handleSubmit}>
+          <input id="input" style={inputStyle}/>
+          <button id="button" style={buttonStyle} type="submit"> Send </button>
+        </form>
+      </div>
+      </div>
+
     </div>
   );
 }
 
 export default Chat;
+
+
