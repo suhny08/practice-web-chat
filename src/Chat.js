@@ -7,6 +7,8 @@ const socket = io("http://localhost:3000/chat", { transports: ['websocket'] });
 
 function Chat() {
   const [ email, setEmail ] = useState("");
+  const [ imessage, setiMessage ] = useState("");
+  const [ chats, setChats ] = useState([]);
 
   const bodyStyle = {
     margin: '0', 
@@ -78,13 +80,21 @@ function Chat() {
   const handleSubmit = e => {
     e.preventDefault();
     var socket = io();
-    socket.emit('send-message', 'send');
+    socket.emit('send-message', imessage);
+    setChats([...chats, imessage]);
   };
+
+  const handleChange = e => {
+    setiMessage(e.target.value);
+  }
+
 
   useEffect(() => {
     var socket = io();
     socket.on("broadcast", (msg) => {
-      console.log(msg);
+
+      setChats([...chats, msg]);
+      console.log(chats);
     });
   }, []);
 
@@ -94,13 +104,17 @@ function Chat() {
 
     <div>
       <div>
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="10" cy="10" r="10"/>
-        </svg>
+        <ul>
+          {
+            chats.map(e => {
+              return <li key={e.id}>{chats}</li>
+            })
+          }
+        </ul>
       </div>
       <div>
         <form id="form" style={formStyle} onSubmit={handleSubmit}>
-          <input id="input" style={inputStyle}/>
+          <input id="input" style={inputStyle} onChange={handleChange} value={imessage}/>
           <button id="button" style={buttonStyle} type="submit"> Send </button>
         </form>
       </div>
