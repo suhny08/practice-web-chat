@@ -66,13 +66,13 @@ function Chat() {
       console.log(chats);
       setChats([...chats, msg]);
     });
-  }, []);
+  });
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     console.log(chats);
-    await socket.emit ('send-message', imessage);
-    await setChats([...chats, imessage]);
+     socket.emit ('send-message', imessage);
+    //  setChats([...chats, imessage]);
     console.log(chats);
   };
 
