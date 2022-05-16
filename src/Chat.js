@@ -1,11 +1,12 @@
 /*eslint-disable*/
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import io from "socket.io-client";
 
-const socket = io("http://localhost:3000/chat", { transports: ['websocket'] });
-
+// const socket = io("http://localhost:3000/chat");
+const socket = io();
 
 function Chat() {
+
   const [ email, setEmail ] = useState("");
   const [ imessage, setiMessage ] = useState("");
   const [ chats, setChats ] = useState([]);
@@ -39,8 +40,7 @@ function Chat() {
     color: '#fff'
   }
 
-  useEffect (() => {
-    
+  useEffect (() => {    
     fetch("/isUser", {
       method: "GET", 
       // redirect: "follow",
@@ -58,44 +58,35 @@ function Chat() {
         // window.location.href = '/';
       }
     });
-
+  }, []);
+  
+  
+  useEffect(() => {
+    socket.on("broadcast", msg => {
+      console.log(chats);
+      setChats([...chats, msg]);
+    });
   }, []);
 
-
-  useEffect(() => {
-    // var socket = io.connect('http://localhost:3000');
-    // io.connect('http://localhost:3000');
-    return () => {
-      // socket.close();
-    };
-  }, []); 
-  
-
-  
-  function emit() {
-    // var socket = io();
-    // socket.emit('user-send', 'hello');
-  }
-
-  const handleSubmit = e => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    var socket = io();
-    socket.emit('send-message', imessage);
-    setChats([...chats, imessage]);
+    console.log(chats);
+    await socket.emit ('send-message', imessage);
+    await setChats([...chats, imessage]);
+    console.log(chats);
   };
 
-  const handleChange = e => {
+
+  const handleChange = (e) => {
     setiMessage(e.target.value);
   }
 
 
-  useEffect(() => {
-    var socket = io();
-    socket.on("broadcast", (msg) => {
 
-      setChats([...chats, msg]);
-      console.log(chats);
-    });
+  useEffect(() => {
+    return () => {
+      socket.close();
+    };
   }, []);
 
   return (
@@ -107,7 +98,7 @@ function Chat() {
         <ul>
           {
             chats.map(e => {
-              return <li key={e.id}>{chats}</li>
+              return <li key={e.id}>{e}</li>
             })
           }
         </ul>

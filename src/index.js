@@ -11,11 +11,9 @@ import { BrowserRouter, HashRouter } from 'react-router-dom';
 
 
 ReactDOM.render(
-  <React.StrictMode>
     <BrowserRouter>
       <Web />
-    </BrowserRouter>
-  </React.StrictMode>,
+    </BrowserRouter>,
 document.getElementById('root')
 );
 
