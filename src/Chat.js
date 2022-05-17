@@ -5,9 +5,10 @@ import io from "socket.io-client";
 // const socket = io("http://localhost:3000/chat");
 const socket = io();
 
-function Chat() {
+function Chat(props) {
 
-  const [ email, setEmail ] = useState("");
+  const user = props.location.state.user.email;
+
   const [ imessage, setiMessage ] = useState("");
   const [ chats, setChats ] = useState([]);
 
@@ -63,17 +64,14 @@ function Chat() {
   
   useEffect(() => {
     socket.on("broadcast", msg => {
-      console.log(chats);
       setChats([...chats, msg]);
     });
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(chats);
-     socket.emit ('send-message', imessage);
+     socket.emit ('send-message', { user: user, message: imessage});
     //  setChats([...chats, imessage]);
-    console.log(chats);
   };
 
 
@@ -91,14 +89,14 @@ function Chat() {
 
   return (
     <div>
-    <h1>Chat here!</h1>
+    <h1>Chat Here!</h1>
 
     <div>
       <div>
         <ul>
           {
             chats.map(e => {
-              return <li key={e.id}>{e}</li>
+              return <li key={e.id}>{e.user + ": " + e.message}</li>
             })
           }
         </ul>

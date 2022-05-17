@@ -112,11 +112,11 @@ passport.use(new LocalStrategy({
     passReqToCallback: true,
   }, function (req, iemail, ipassword, done) {
     //input email, password (usernameFiled, passwordField값이 iemail, ipassword로 대입됨)
-    // console.log(iemail);
     console.log('email: ' + iemail + ', password: ' + ipassword);
     
     console.log('local Starategy');
-    if ( userData.email === iemail && userData.password === ipassword ) {
+    if ( userData.filter(iter => iter.email === iemail && iter.password === ipassword) ) {
+    // if ( userData.email === iemail && userData.password === ipassword ) {
         console.log('login success');
         return done(null, {email: iemail, password: ipassword});
     } else {
