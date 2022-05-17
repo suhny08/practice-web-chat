@@ -55,8 +55,8 @@ function Chat(props) {
     .then(res => res.json())
     .then(user => {
       if (!user) {
-        // alert('login first');
-        // window.location.href = '/';
+        alert('login first');
+        window.location.href = '/';
       }
     });
   }, []);
@@ -71,7 +71,6 @@ function Chat(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
      socket.emit ('send-message', { user: user, message: imessage});
-    //  setChats([...chats, imessage]);
   };
 
 
