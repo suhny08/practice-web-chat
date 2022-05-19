@@ -7,9 +7,9 @@ import { KimProfile, LeeProfile } from "./profile";
 const socket = io();
 
 function Chat(props) {
-
+  
   const user = props.location.state.user.email;
-
+  console.log(user);
   const [ imessage, setiMessage ] = useState("");
   const [ chats, setChats ] = useState([]);
 
@@ -108,9 +108,8 @@ function Chat(props) {
         <ul>
           { 
             chats.map((e, index) => {
-              return 
-              ( user === "kim" ? <KimProfile /> : <LeeProfile /> ) || 
-              <li key={index} style={{fontSize: '20px'}}> {e.user + ": " + e.message}  <p style={{fontSize: '12px'}}>{e.date}</p> </li> 
+              return <li key={index} style={{fontSize: '20px'}}>{ user === "kim" ? <KimProfile /> : <LeeProfile /> } {e.user + ": " + e.message}  
+               <p style={{fontSize: '12px'}}>{e.date}</p> </li> 
             })      
           }
         </ul>
