@@ -41,7 +41,16 @@ function Chat(props) {
     borderRadius: '3px', 
     color: '#fff'
   }
-  
+  const liStyle = {
+    fontSize: '20px'
+  }
+  const liStyleRight = {
+    fontSize: '20px',
+    textAlign: 'right'
+  }
+const pStyle = {
+  fontSize: '12px'
+}  
 
   useEffect (() => {    
     fetch("/isUser", {
@@ -108,8 +117,13 @@ function Chat(props) {
         <ul>
           { 
             chats.map((e, index) => {
-              return <li key={index} style={{fontSize: '20px'}}>{ user === "kim" ? <KimProfile /> : <LeeProfile /> } {e.user + ": " + e.message}  
-               <p style={{fontSize: '12px'}}>{e.date}</p> </li> 
+              if (e.user === "kim") {
+              return <li key={index} style={liStyleRight}> <KimProfile /> {e.user + ": " + e.message}  
+               <p style={pStyle}>{e.date}</p> </li> 
+              } else {
+              return <li key={index} style={liStyle}> <LeeProfile />  {e.user + ": " + e.message}  
+               <p style={pStyle}>{e.date}</p> </li> 
+              }
             })      
           }
         </ul>
