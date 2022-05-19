@@ -1,6 +1,6 @@
 // import socket from './socket';
 // const socket = require('./socket');
-var userData = require('./userData');
+var userData = require('../practice-web-chat/src/userData.json');
 
 const express = require('express');
 const path = require('path');

@@ -1,0 +1,12 @@
+[
+    {    
+        "email": "kim",
+        "password": "1" ,
+        "profile": "https://icon-library.com/images/22224-tiger-icon_5825.png"
+    },
+    {
+        "email": "lee",
+        "password": "1",
+        "profile": "https://icon-library.com/images/22215-dog.ico.ico"
+    }
+]

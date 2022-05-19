@@ -1,6 +1,7 @@
 /*eslint-disable*/
 import React, { useState, useEffect, useCallback } from "react";
 import io from "socket.io-client";
+import { KimProfile, LeeProfile } from "./profile";
 
 // const socket = io("http://localhost:3000/chat");
 const socket = io();
@@ -40,6 +41,7 @@ function Chat(props) {
     borderRadius: '3px', 
     color: '#fff'
   }
+  
 
   useEffect (() => {    
     fetch("/isUser", {
@@ -56,21 +58,32 @@ function Chat(props) {
     .then(user => {
       if (!user) {
         alert('login first');
-        window.location.href = '/';
+        // window.location.href = '/';
       }
     });
   }, []);
   
+  useEffect(() => {
+    // console.log(window.localStorage);
+    if ( window.localStorage.chats ) {
+      setChats(JSON.parse(window.localStorage.chats));
+    }
+  }, []);
   
   useEffect(() => {
     socket.on("broadcast", msg => {
       setChats([...chats, msg]);
+      window.localStorage.setItem(
+        "chats", 
+        JSON.stringify([...chats, msg]),
+        );
     });
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-     socket.emit ('send-message', { user: user, message: imessage});
+    const nowDate = new Date();
+     socket.emit ('send-message', { user: user, message: imessage, date: nowDate.toLocaleString() });
   };
 
 
@@ -93,10 +106,12 @@ function Chat(props) {
     <div>
       <div>
         <ul>
-          {
-            chats.map(e => {
-              return <li key={e.id}>{e.user + ": " + e.message}</li>
-            })
+          { 
+            chats.map((e, index) => {
+              return 
+              ( user === "kim" ? <KimProfile /> : <LeeProfile /> ) || 
+              <li key={index} style={{fontSize: '20px'}}> {e.user + ": " + e.message}  <p style={{fontSize: '12px'}}>{e.date}</p> </li> 
+            })      
           }
         </ul>
       </div>
