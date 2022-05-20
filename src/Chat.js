@@ -90,8 +90,11 @@ const pStyle = {
         JSON.stringify([...chats, msg]),
         );
     });
-    window.scrollTo(0, document.body.scrollHeight);
   });
+
+  useEffect(() => {
+    window.scrollTo(0, document.body.scrollHeight);
+  }, [chats])
 
   const handleSubmit = (e) => {
     e.preventDefault();
