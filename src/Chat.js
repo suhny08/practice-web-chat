@@ -9,7 +9,7 @@ const socket = io();
 function Chat(props) {
   
   const user = props.location.state.user.email;
-  console.log(user);
+
   const [ imessage, setiMessage ] = useState("");
   const [ chats, setChats ] = useState([]);
 
@@ -40,6 +40,9 @@ function Chat(props) {
     background: '#0080ff',
     borderRadius: '3px', 
     color: '#fff'
+  }
+  const divStyle = {
+    marginBottom: '100px'
   }
   const liStyle = {
     fontSize: '20px'
@@ -87,6 +90,7 @@ const pStyle = {
         JSON.stringify([...chats, msg]),
         );
     });
+    window.scrollTo(0, document.body.scrollHeight);
   });
 
   const handleSubmit = (e) => {
@@ -113,7 +117,7 @@ const pStyle = {
     <h1>Chat Here!</h1>
 
     <div>
-      <div>
+      <div style={divStyle}>
         <ul>
           { 
             chats.map((e, index) => {
@@ -128,12 +132,12 @@ const pStyle = {
           }
         </ul>
       </div>
+      </div>
       <div>
         <form id="form" style={formStyle} onSubmit={handleSubmit}>
           <input id="input" style={inputStyle} onChange={handleChange} value={imessage}/>
           <button id="button" style={buttonStyle} type="submit"> Send </button>
         </form>
-      </div>
       </div>
 
     </div>
